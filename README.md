@@ -19,6 +19,6 @@
 
 ## 撮合算法
 
-详细说明-->**[exchange-matching-engine](https://github.com/jcwangjc/exchange-matching-engine)**
+详细说明见：### [exchange-matching-algorithm](https://github.com/jcwangjc/exchange-matching-engine/tree/main/exchange-matching-algorithm "exchange-matching-algorithm")
 
 ---
