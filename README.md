@@ -8,15 +8,6 @@
 
 ---
 
-## 开发前置
-
-在开始了解撮合交易系统设计原理之前，我们应该对“交易”有一些基础的概念。详细内容我们将在对应模块进行讲解。
-
-- 市价单：市价购买，不进订单薄；
-- 限价单：限价购买，没有完成的就进入订单薄；
-- 订单薄：保存没有完成的限价单的集合；
-- 盘口：等同于订单薄；
-
 ## 撮合算法
 
 详细说明见：### [exchange-matching-algorithm](https://github.com/jcwangjc/exchange-matching-engine/tree/main/exchange-matching-algorithm "exchange-matching-algorithm")
