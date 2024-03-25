@@ -1,11 +1,17 @@
 package com.exchange.match.engine.algorithm.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ *  @author : laoA
+ *  @email : laoa@markcoin.net
+ *  @describe : 撮合模型——限价单交易模型
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

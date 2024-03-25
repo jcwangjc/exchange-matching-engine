@@ -19,14 +19,6 @@ public enum OrderType {
      * 撤销单
      */
     CANCEL(3, "cancel"),
-    /**
-     * 撤单失败,
-     */
-    CANCEL_LIMIT_ERROR(4,"cancel_limit_error"),
-    /**
-     * 修改精度,
-     */
-    UPDATE_PRECISION(5,"cancel_limit_error")
     ;
 
     public final Integer code;

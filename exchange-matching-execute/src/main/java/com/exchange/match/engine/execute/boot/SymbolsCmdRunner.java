@@ -4,7 +4,7 @@ import com.exchange.match.engine.algorithm.disruptor.manager.DisruptorManager;
 import com.exchange.match.engine.algorithm.disruptor.template.DisruptorTemplate;
 import com.exchange.match.engine.execute.match.MatchContext;
 import com.exchange.match.engine.execute.match.MatchEngineProperties;
-import com.exchange.match.engine.execute.mq.MatchListener;
+import com.exchange.match.engine.execute.mq.RocketMqMatchListener;
 import com.exchange.match.engine.execute.mq.RocketMqClientProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -60,7 +60,6 @@ public class SymbolsCmdRunner extends MatchContext implements CommandLineRunner,
                 initSymbol(kv);
             }catch (Exception e){
                 e.printStackTrace();
-                log.error("initSymbol error {}",kv);
             }
         });
     }
@@ -74,7 +73,7 @@ public class SymbolsCmdRunner extends MatchContext implements CommandLineRunner,
     private DisruptorTemplate initBook(Map.Entry<String, MatchEngineProperties.CoinScale> kv){
         String symbol = kv.getKey();
         DisruptorTemplate disruptorTemplate = disruptorManager.build(symbol,kv.getValue().getCoinScale(),kv.getValue().getCoinScale());
-        log.info(".......init disruptor --> order_book and local_TradePlate with symbol as {}",symbol);
+        log.info(".......init disruptor -->symbol as {}",symbol);
         return disruptorTemplate;
     }
 
@@ -92,10 +91,11 @@ public class SymbolsCmdRunner extends MatchContext implements CommandLineRunner,
         consumer.setConsumeMessageBatchMaxSize(1000);
 
         //顺序消费
-        MatchListener matchListener=new MatchListener();
+        RocketMqMatchListener matchListener=new RocketMqMatchListener();
         matchListener.setDisruptorTemplate(disruptorTemplate);
         consumer.registerMessageListener(matchListener);
         consumer.start();
+        log.info(".......init rocket mq -->symbol as {}",symbol);
     }
 
     @Override

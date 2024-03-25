@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * @author : laoA
@@ -41,39 +40,4 @@ public abstract class Order implements Serializable {
      */
     protected OrderType orderType;
 
-//    /**
-//     * 挂单的时间
-//     */
-//    protected Long time;
-//    /**
-//     * 成交额
-//     */
-//    protected BigDecimal turnover = BigDecimal.ZERO;
-//    /**
-//     * 交易完成时间
-//     */
-//    protected Long completedTime;
-//    /**
-//     * 交易取消时间
-//     */
-//    protected Long cancelTime;
-
-//    /**
-//     * 未成交量
-//     */
-//    protected BigDecimal UnFinishAmount = BigDecimal.ZERO;
-//    /**
-//     * 剩余的金额
-//     */
-//    protected BigDecimal surplusFrozen = BigDecimal.ZERO;
-//    /**
-//     * 下单总额
-//     */
-//    protected BigDecimal placeAmount;
-//
-//    /**
-//     * 计算方式 1按数量 2按金额
-//     * @return
-//     */
-//    protected Integer computeType;
 }
