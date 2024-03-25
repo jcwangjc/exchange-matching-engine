@@ -28,7 +28,6 @@ public class OrderEventHandler implements EventHandler<OrderEvent> {
 
     private TradePlate tradePlate;
 
-
     public OrderEventHandler(OrderBook orderBooks){
         this.orderBooks=orderBooks;
         this.symbol=orderBooks.getSymbol();

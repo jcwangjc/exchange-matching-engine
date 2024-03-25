@@ -27,6 +27,7 @@
         <spring.cloud.alibaba.version>2.2.8.RELEASE</spring.cloud.alibaba.version>
         <log4j.version>2.18.0</log4j.version>
         <lombok.version>1.18.24</lombok.version>
+        <fastjson>1.2.76</fastjson>
     </properties>
 
     <distributionManagement>
@@ -105,6 +106,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+        <!--JSON-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson}</version>
         </dependency>
     </dependencies>
     <build>
