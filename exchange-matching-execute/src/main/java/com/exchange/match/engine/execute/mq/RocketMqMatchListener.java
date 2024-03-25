@@ -26,21 +26,26 @@ public class RocketMqMatchListener implements MessageListenerOrderly {
     private DisruptorTemplate disruptorTemplate;
 
     @Override
-    public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, ConsumeOrderlyContext consumeOrderlyContext) {
+    public ConsumeOrderlyStatus consumeMessage(List<MessageExt> messages, ConsumeOrderlyContext consumeOrderlyContext) {
         consumeOrderlyContext.setAutoCommit(true);
-        for (MessageExt msg : msgs) {
-            OrderModel orderModel = JSONObject.parseObject(new String(msg.getBody()), OrderModel.class);
-            Order order=null;
-            switch (orderModel.getOrderType()){
-                case MARKET:
-                case CANCEL:
-                    break;
-                case LIMIT:
-                    order=JSONObject.parseObject(orderModel.getContent(), OrderLimit.class);
-                    break;
+        for (MessageExt msg : messages) {
+            try{
+                OrderModel orderModel = JSONObject.parseObject(new String(msg.getBody()), OrderModel.class);
+                log.info("...accept orderModel -> {}",JSONObject.toJSONString(orderModel));
+                Order order=null;
+                switch (orderModel.getOrderType()){
+                    case MARKET:
+                    case CANCEL:
+                        break;
+                    case LIMIT:
+                        order=JSONObject.parseObject(orderModel.getContent(), OrderLimit.class);
+                        break;
+                }
+                order.setOrderType(orderModel.getOrderType());
+                disruptorTemplate.onData(order);
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            order.setOrderType(orderModel.getOrderType());
-            disruptorTemplate.onData(order);
         }
         return ConsumeOrderlyStatus.SUCCESS;
     }

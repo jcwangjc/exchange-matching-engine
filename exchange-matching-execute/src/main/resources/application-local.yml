@@ -21,7 +21,6 @@ match:
     BTCUSDT:
       priceScale: 2
       coinScale: 5
-      symbol:
     ETHUSDT:
-      coinScale: 3
-      baseCoinScale: 6
+      priceScale: 3
+      coinScale: 6

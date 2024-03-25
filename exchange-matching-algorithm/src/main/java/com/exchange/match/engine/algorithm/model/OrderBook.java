@@ -38,13 +38,13 @@ public class OrderBook implements Serializable {
      */
     protected String symbol;
     /**
-     * 交易币种的精度(usdt)
+     * 交易币种的精度
      */
-    protected int coinScale;
+    protected int priceScale;
     /**
      * 基币的精度(btc)
      */
-    protected int baseCoinScale;
+    protected int coinScale;
     /**
      * 日期格式器
      */
@@ -58,13 +58,13 @@ public class OrderBook implements Serializable {
     /**
      * 自定义构造器
      * @param symbol
+     * @param priceScale
      * @param coinScale
-     * @param baseCoinScale
      */
-    public OrderBook(String symbol, int coinScale, int baseCoinScale){
+    public OrderBook(String symbol, int priceScale, int coinScale){
         this.symbol=symbol;
+        this.priceScale=coinScale;
         this.coinScale=coinScale;
-        this.baseCoinScale=baseCoinScale;
         this.initialize();
     }
 
@@ -72,7 +72,6 @@ public class OrderBook implements Serializable {
      * 初始化队列
      */
     public void initialize(){
-        log.info(".......init CoinTrader for symbol {}",symbol);
         //加载买入比较器，价格从大到小
         buyLimitPrice = new TreeMap<>(Comparator.reverseOrder());
         //加载卖出比较器，价格从小到大

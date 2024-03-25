@@ -52,9 +52,6 @@ public class SymbolsCmdRunner extends MatchContext implements CommandLineRunner,
     @Async
     public void initSymbols(Map<String, MatchEngineProperties.CoinScale> symbols){
         Set<Map.Entry<String, MatchEngineProperties.CoinScale>> entries = symbols.entrySet();
-        if (entries == null || entries.size() == 0) {
-            return;
-        }
         entries.forEach(kv -> {
             try{
                 initSymbol(kv);
@@ -86,8 +83,8 @@ public class SymbolsCmdRunner extends MatchContext implements CommandLineRunner,
         consumer.setPullInterval(_config.getPullInterval());//拉取的时间间隔
         String topic=_config.getSubscribePrefix()+symbol.toUpperCase();//主题
         consumer.subscribe(topic, _config.getSubExpression());
-        consumer.setMaxReconsumeTimes(_config.getReconsume()); //消费失败的重试次数
-        consumer.setPullBatchSize(100);
+        consumer.setMaxReconsumeTimes(0); //消费失败的重试次数
+        consumer.setPullBatchSize(1000);
         consumer.setConsumeMessageBatchMaxSize(1000);
 
         //顺序消费
@@ -95,6 +92,7 @@ public class SymbolsCmdRunner extends MatchContext implements CommandLineRunner,
         matchListener.setDisruptorTemplate(disruptorTemplate);
         consumer.registerMessageListener(matchListener);
         consumer.start();
+
         log.info(".......init rocket mq -->symbol as {}",symbol);
     }
 
@@ -102,5 +100,4 @@ public class SymbolsCmdRunner extends MatchContext implements CommandLineRunner,
     public void destroy() throws Exception {
 
     }
-
 }

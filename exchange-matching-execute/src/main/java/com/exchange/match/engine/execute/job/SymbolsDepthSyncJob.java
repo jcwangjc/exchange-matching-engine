@@ -20,6 +20,5 @@ public class SymbolsDepthSyncJob {
     @Scheduled(fixedDelay = 1000)
     public void syncData() {
         //TODO 此处把盘口数据推送其他中间件
-        log.info("....");
     }
 }

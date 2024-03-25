@@ -13,6 +13,8 @@ import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 import lombok.Data;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 
 /**
@@ -22,6 +24,9 @@ import java.util.concurrent.Executors;
  */
 @Data
 public abstract class DisruptorManager {
+
+    private Map<String,OrderEventHandler> eventHandlerMap=new ConcurrentHashMap<>();
+
     /**
      * 初始化
      * @param symbol
@@ -50,6 +55,7 @@ public abstract class DisruptorManager {
         OrderBook orderBooks=buildOrderBook(symbol,priceScale,coinScale);
         //5-3.撮合事件
         OrderEventHandler orderEventHandler = new OrderEventHandler(orderBooks);
+        eventHandlerMap.put(symbol,orderEventHandler);
         //5-4.添加handle
         disruptor.handleEventsWith(orderEventHandler).then(new ClearingEventHandler());
         //5-5.创建环形队列
@@ -72,5 +78,4 @@ public abstract class DisruptorManager {
         DisruptorTemplate disruptorTemplate = new DisruptorTemplate(orderEventRingBuffer);
         return disruptorTemplate;
     }
-
 }

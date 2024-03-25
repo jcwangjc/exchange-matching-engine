@@ -62,11 +62,11 @@ public class MatchLimitServiceImpl extends MatchContext implements MatchService<
                 MatchResult matchResult = processMath(taker, maker, orderBook,tradePlate);
                 trades.add(matchResult);
                 //makerMergeOrder里面的订单被吃掉
-                if(ScalaCheckUtil.isCompleted(orderBook.getBaseCoinScale(),maker.getAmount().subtract(maker.getTradeAmount()))){
+                if(ScalaCheckUtil.isCompleted(orderBook.getCoinScale(),maker.getAmount().subtract(maker.getTradeAmount()))){
                     levelIterator.remove();
                 }
                 //经过一圈的吃单，订单完成退出循环
-                if (ScalaCheckUtil.isCompleted(orderBook.getBaseCoinScale(),taker.getAmount().subtract(taker.getTradeAmount()))) {
+                if (ScalaCheckUtil.isCompleted(orderBook.getCoinScale(),taker.getAmount().subtract(taker.getTradeAmount()))) {
                     loop = false;
                     break;
                 }
@@ -77,7 +77,7 @@ public class MatchLimitServiceImpl extends MatchContext implements MatchService<
             }
         }
         //4、如果订单没有完成,则加入到账本里面
-        if(!ScalaCheckUtil.isCompleted(orderBook.getBaseCoinScale(),taker.getAmount().subtract(taker.getTradeAmount()))){
+        if(!ScalaCheckUtil.isCompleted(orderBook.getCoinScale(),taker.getAmount().subtract(taker.getTradeAmount()))){
             //限价买入情况，做资产解冻余额计算
             if(taker.getOrderDirection().equals(OrderDirection.BUY)){
                 setSurplusFrozen(taker);
@@ -85,7 +85,7 @@ public class MatchLimitServiceImpl extends MatchContext implements MatchService<
             //添加订单薄
             orderBook.addOrder(taker);
             //更新盘口数据
-            tradePlateAddOrder(taker,tradePlate,orderBook.getBaseCoinScale());
+            tradePlateAddOrder(taker,tradePlate,orderBook.getCoinScale());
         }else{
             //最后一个结果设置订单完成
             MatchResult matchResult = trades.get(trades.size() - 1);
@@ -147,10 +147,10 @@ public class MatchLimitServiceImpl extends MatchContext implements MatchService<
             maker.setSurplusFrozen(maker.getSurplusFrozen().subtract(turnoverPrice));
         }
         //处理盘口：将挂单的数据做了一部分或全部消耗
-        updateTradePlateAmount(maker, dealAmount,tradePlate,orderBook.getBaseCoinScale());
+        updateTradePlateAmount(maker, dealAmount,tradePlate,orderBook.getCoinScale());
 
         //填充交易记录
-        return generateMatchExchangeTrade(taker, maker,dealPrice, dealAmount,orderBook.getBaseCoinScale(),orderBook,tradePlate);
+        return generateMatchExchangeTrade(taker, maker,dealPrice, dealAmount,orderBook.getCoinScale(),orderBook,tradePlate);
     }
 
     /**
@@ -189,7 +189,7 @@ public class MatchLimitServiceImpl extends MatchContext implements MatchService<
         Boolean completed = ScalaCheckUtil.isCompleted(baseCoinScale, maker.getAmount().subtract(maker.getTradeAmount()));
         if(completed){
             makerResult.setFinished(true);
-            updateTradePlateAmount(maker, maker.getAmount().subtract(maker.getTradeAmount()),tradePlate,orderBook.getBaseCoinScale());
+            updateTradePlateAmount(maker, maker.getAmount().subtract(maker.getTradeAmount()),tradePlate,orderBook.getCoinScale());
         }else{
             makerResult.setFinished(false);
         }
@@ -215,7 +215,7 @@ public class MatchLimitServiceImpl extends MatchContext implements MatchService<
      * @return
      */
     private Boolean orderAmountIllegal(OrderBook orderBook, OrderLimit taker) {
-        BigDecimal min = BigDecimal.ONE.movePointLeft(orderBook.getBaseCoinScale());
+        BigDecimal min = BigDecimal.ONE.movePointLeft(orderBook.getCoinScale());
         return taker.getAmount().compareTo(min) < 0;
     }
 

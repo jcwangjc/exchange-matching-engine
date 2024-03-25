@@ -1,6 +1,7 @@
 package com.exchange.match.engine.execute.mq.model;
 
 import com.exchange.match.engine.algorithm.enums.OrderType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @Builder
+@AllArgsConstructor
 public class OrderModel {
     /**
      * 1限价 2市价 3撤单

@@ -36,7 +36,7 @@ public class RocketMqProducerConfig implements DisposableBean {
             RocketMqClientProperties.Producer _producer_config = rocketMQClientProperties.getProducer();
             DefaultMQProducer producer = new DefaultMQProducer(_producer_config.getConsumerGroupPrefix());
             producer.setNamesrvAddr(_producer_config.getNameServers());
-            producer.setDefaultTopicQueueNums(_producer_config.getDefaultTopicQueueNums());
+            producer.setDefaultTopicQueueNums(_producer_config.getDefaultTopicQueueNum());
             producer.setSendMsgTimeout(_producer_config.getSendMsgTimeout());
             producer.setRetryTimesWhenSendAsyncFailed(_producer_config.getRetryTimesWhenSendAsyncFailed());
             producer.setRetryTimesWhenSendFailed(_producer_config.getRetryTimesWhenSendFailed());
