@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * @email : laoa@markcoin.net
  */
 @Data
-public class Result {
+public class MatchResult {
     //交易对
     private String symbol;
     //交易对-商户隔离

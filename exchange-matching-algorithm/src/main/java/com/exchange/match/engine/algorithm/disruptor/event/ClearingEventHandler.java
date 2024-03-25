@@ -3,7 +3,9 @@ package com.exchange.match.engine.algorithm.disruptor.event;
 import com.lmax.disruptor.EventHandler;
 
 /**
- * @author harrison
+ *  describe : 数据清楚
+ *  author : laoA
+ *  email : laoa@markcoin.net
  */
 public class ClearingEventHandler implements EventHandler<OrderEvent> {
     @Override

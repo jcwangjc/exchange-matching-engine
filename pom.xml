@@ -6,6 +6,7 @@
     <modules>
 
         <module>exchange-matching-algorithm</module>
+        <module>exchange-matching-execute</module>
     </modules>
 
     <parent>
