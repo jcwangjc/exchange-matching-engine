@@ -11,14 +11,8 @@ import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author : laoA
@@ -50,23 +44,6 @@ public class RocketMqProducerTemplate {
             return mqs.get(value);
         }, id);
         return send;
-    }
-
-    /**
-     * 分区投递(批量)
-     * @param topic   主体
-     * @throws MQClientException
-     * @throws RemotingException
-     * @throws InterruptedException
-     */
-    public void sendMessageBatch(List<Object> messages, Long takerUserId, String topic, String symbol) throws MQClientException, RemotingException, InterruptedException, MQBrokerException {
-        List<Message> batch = new ArrayList<>();
-        for (Object message:messages) {
-            String body = JSONObject.toJSON(message).toString();
-            Message msg = new Message(topic, symbol,"KEY_" + takerUserId, body.getBytes());
-            batch.add(msg);
-        }
-        SendResult send = producer.send(batch);
     }
 
     /**

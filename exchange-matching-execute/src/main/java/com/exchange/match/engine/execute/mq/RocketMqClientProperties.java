@@ -58,10 +58,8 @@ public class RocketMqClientProperties {
         private int reconsume;
         @Value("size")
         private int size;
-
         @Value("orderly")
         private String orderly;
-
         @Value("maxDelay")
         private long maxDelay;
     }
