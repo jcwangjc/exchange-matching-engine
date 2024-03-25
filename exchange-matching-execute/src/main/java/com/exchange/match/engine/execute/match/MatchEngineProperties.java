@@ -24,8 +24,6 @@ public class MatchEngineProperties {
         private int priceScale;
         //币种精度
         private int coinScale;
-        //交易对
-        private String symbol;
     }
 
     public Map<String, CoinScale> getSymbols() {

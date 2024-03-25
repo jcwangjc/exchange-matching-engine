@@ -6,6 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+
+/**
+ *  @author : laoA
+ *  @describe : 程序启动以后，通过SymbolsCmdRunner类来加载symbol启动项
+ *  @email : laoa@markcoin.net
+ */
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync

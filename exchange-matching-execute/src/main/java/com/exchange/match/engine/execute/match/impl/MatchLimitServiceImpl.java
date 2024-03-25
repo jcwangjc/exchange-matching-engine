@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class LimitMatchServiceImpl extends MatchContext implements MatchService<OrderLimit>, InitializingBean {
+public class MatchLimitServiceImpl extends MatchContext implements MatchService<OrderLimit>, InitializingBean {
 
 
     @Override
