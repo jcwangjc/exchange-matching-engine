@@ -20,21 +20,15 @@ public class MatchEngineProperties {
 
     @Data
     public static class CoinScale{
-        /**
-         * 交易币种的精度
-         */
+        //价格精度
+        private int priceScale;
+        //币种精度
         private int coinScale;
-        /**
-         * 基币的精度
-         */
-        private int baseCoinScale;
-        /**
-         * 交易对信息
-         */
+        //交易对
         private String symbol;
     }
 
-    public Map<String, CoinScale> getSymbolWassNames() {
+    public Map<String, CoinScale> getSymbols() {
         return symbols;
     }
 

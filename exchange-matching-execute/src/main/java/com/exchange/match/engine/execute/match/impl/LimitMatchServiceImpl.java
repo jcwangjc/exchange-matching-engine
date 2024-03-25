@@ -4,6 +4,7 @@ import com.exchange.match.engine.algorithm.enums.CompleteStatus;
 import com.exchange.match.engine.algorithm.enums.OrderDirection;
 import com.exchange.match.engine.algorithm.enums.OrderType;
 import com.exchange.match.engine.algorithm.factory.MatchService;
+import com.exchange.match.engine.algorithm.factory.MatchServiceFactory;
 import com.exchange.match.engine.algorithm.model.*;
 import com.exchange.match.engine.algorithm.utils.ScalaCheckUtil;
 import com.exchange.match.engine.execute.match.MatchContext;
@@ -278,7 +279,7 @@ public class LimitMatchServiceImpl extends MatchContext implements MatchService<
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-
+    public void afterPropertiesSet() {
+        MatchServiceFactory.register(OrderType.LIMIT, this);
     }
 }
