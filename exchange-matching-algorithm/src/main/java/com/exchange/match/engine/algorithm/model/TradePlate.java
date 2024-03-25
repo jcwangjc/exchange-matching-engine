@@ -1,6 +1,7 @@
 package com.exchange.match.engine.algorithm.model;
 
 import com.exchange.match.engine.algorithm.enums.OrderDirection;
+import com.exchange.match.engine.algorithm.utils.ScalaCheckUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,15 +56,17 @@ public class TradePlate implements Serializable {
      * @param order
      */
     public void add(OrderLimit order, int baseCoinScale){
-        log.info("trade plate add {} , price {} ,amount {},tradeAmount {},baseCoinScale {}",order.getOrderId(),order.getPrice(),order.getAmount(),order.getTradeAmount(),baseCoinScale);
-        TreeMap<BigDecimal, BigDecimal> tradePlate = this.getOurDepth(order.getOrderDirection());
-        BigDecimal size = tradePlate.get(order.getPrice());
-        //总数量-已完成的数量=盘口需添加的数量
-        if(size==null){
-            size=BigDecimal.ZERO;
+        Boolean completed = ScalaCheckUtil.isCompleted(baseCoinScale, order.getAmount().subtract(order.getTradeAmount()));
+        if(!completed){
+            TreeMap<BigDecimal, BigDecimal> tradePlate = this.getOurDepth(order.getOrderDirection());
+            BigDecimal size = tradePlate.get(order.getPrice());
+            //总数量-已完成的数量=盘口需添加的数量
+            if(size==null){
+                size=BigDecimal.ZERO;
+            }
+            BigDecimal subtract=order.getAmount().subtract(order.getTradeAmount());
+            tradePlate.put(order.getPrice(),size.add(subtract));
         }
-        BigDecimal subtract=order.getAmount().subtract(order.getTradeAmount());
-        tradePlate.put(order.getPrice(),size.add(subtract));
     }
 
     /**
@@ -72,17 +75,17 @@ public class TradePlate implements Serializable {
      * @param reduceAmount
      */
     public void remove(OrderLimit order, BigDecimal reduceAmount, int baseCoinScale){
-        log.info("trade plate remove {} ,reduceAmount {} ,baseCoinScale {}",order.getOrderId(),reduceAmount,baseCoinScale);
         TreeMap<BigDecimal, BigDecimal> tradePlate = this.getOurDepth(order.getOrderDirection());
         BigDecimal amount = tradePlate.get(order.getPrice());
         if(amount==null){
-            log.error(".......find trade plate is null and price is {} orderid {}", order.getPrice(),order.getOrderId());
+            log.error(".......find trade plate is null and price is {} orderId {}", order.getPrice(),order.getOrderId());
             return;
         }
         //盘口数量-成交的数量=盘口剩余数量
         BigDecimal subtract = amount.subtract(reduceAmount);
+        Boolean completed = ScalaCheckUtil.isCompleted(baseCoinScale, subtract);
         //数量为0就移除
-        if(subtract.compareTo(BigDecimal.ZERO)<=0){
+        if(completed){
             tradePlate.remove(order.getPrice());
         }else{
             tradePlate.put(order.getPrice(),subtract);

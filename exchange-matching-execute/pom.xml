@@ -11,5 +11,33 @@
 
     <artifactId>exchange-matching-execute</artifactId>
 
+    <properties>
+        <rocketmq-client>4.9.3</rocketmq-client>
+    </properties>
 
+    <dependencies>
+        <!--rocket-mq-->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>${rocketmq-client}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>fastjson</artifactId>
+                    <groupId>com.alibaba</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--测试+tomcat容器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.exchange.match.engine</groupId>
+            <artifactId>exchange-matching-algorithm</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

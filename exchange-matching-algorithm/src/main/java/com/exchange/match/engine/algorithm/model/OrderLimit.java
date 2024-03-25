@@ -13,19 +13,26 @@ public class OrderLimit extends Order {
     /**
      * 挂单的价格
      */
-    public BigDecimal price = BigDecimal.ZERO;
+    private BigDecimal price = BigDecimal.ZERO;
     /**
      * 买入或者卖出量
      */
-    public BigDecimal amount = BigDecimal.ZERO;
+    private BigDecimal amount = BigDecimal.ZERO;
     /**
      * 成交量
      */
-    protected BigDecimal tradeAmount = BigDecimal.ZERO;
+    private BigDecimal tradeAmount = BigDecimal.ZERO;
+    /**
+     * 未成交量
+     */
+    private BigDecimal UnFinishAmount = BigDecimal.ZERO;
+    /**
+     * 成交额
+     */
+    private BigDecimal turnover = BigDecimal.ZERO;
+    /**
+     * 剩余的金额（限价单按金额购买）
+     */
+    private BigDecimal surplusFrozen = BigDecimal.ZERO;
 
-    public Boolean isCompleted(int baseCoinScale){
-        BigDecimal min = BigDecimal.ONE.movePointLeft(baseCoinScale);
-        BigDecimal check =  this.getAmount().subtract(this.getTradeAmount());
-        return check.compareTo(min)<0?true:false;
-    }
 }

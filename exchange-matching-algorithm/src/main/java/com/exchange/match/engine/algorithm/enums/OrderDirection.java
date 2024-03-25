@@ -18,14 +18,4 @@ public enum OrderDirection {
         this.code = code;
         this.desc = desc;
     }
-
-    public static OrderDirection getOrderDirection(Integer code) {
-        OrderDirection[] values = OrderDirection.values();
-        for (OrderDirection orderDirection : values) {
-            if (orderDirection.getCode().equals(code)) {
-                return orderDirection;
-            }
-        }
-        return null;
-    }
 }

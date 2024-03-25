@@ -26,12 +26,12 @@ public class OrderBook implements Serializable {
      * key: 价格
      * MergeOrder: 同价格的订单，订单按时间排序
      */
-    protected TreeMap<BigDecimal, OrderMerge> buyLimitPrice;
+    protected TreeMap<BigDecimal, OrderMerge<OrderLimit>> buyLimitPrice;
     /**
      * 卖出的限价交易，价格从低到高
      * eg：价格越低，卖出的越容易
      */
-    protected TreeMap<BigDecimal, OrderMerge> sellLimitPrice;
+    protected TreeMap<BigDecimal, OrderMerge<OrderLimit>> sellLimitPrice;
 
     /**
      * 交易的币种
@@ -84,7 +84,7 @@ public class OrderBook implements Serializable {
     /**
      * 获取当前的交易队列
      */
-    public TreeMap<BigDecimal, OrderMerge> getDepth(OrderDirection orderDirection){
+    public TreeMap<BigDecimal, OrderMerge<OrderLimit>> getDepth(OrderDirection orderDirection){
         return orderDirection==OrderDirection.BUY ? buyLimitPrice:sellLimitPrice;
     }
 
@@ -92,20 +92,8 @@ public class OrderBook implements Serializable {
      * 获取当前的交易队列的迭代器
      * @return
      */
-    public Iterator<Map.Entry<BigDecimal, OrderMerge>> getDepthIterator(OrderDirection orderDirection){
+    public Iterator<Map.Entry<BigDecimal, OrderMerge<OrderLimit>>> getDepthIterator(OrderDirection orderDirection){
         return getDepth(orderDirection).entrySet().iterator();
-    }
-
-    /**
-     * 获取对手的交易队列的迭代器
-     * @return
-     */
-    public Iterator<Map.Entry<BigDecimal, OrderMerge>> getOpponentDepthIterator(Integer direct){
-        if (direct.equals(OrderDirection.BUY.getCode())) {
-            return getDepthIterator(OrderDirection.SELL);
-        } else {
-            return getDepthIterator(OrderDirection.BUY);
-        }
     }
 
     /**
@@ -115,7 +103,7 @@ public class OrderBook implements Serializable {
     public void addOrder(OrderLimit order){
         log.info("add order {}",order.getOrderId());
         //将订单加入委托账本
-        TreeMap<BigDecimal, OrderMerge> depth = getDepth(order.getOrderDirection());
+        TreeMap<BigDecimal, OrderMerge<OrderLimit>> depth = getDepth(order.getOrderDirection());
         OrderMerge<OrderLimit> mergeOrder = depth.get(order.getPrice());
         if(mergeOrder==null) {
             mergeOrder = new OrderMerge<OrderLimit>();
@@ -130,7 +118,7 @@ public class OrderBook implements Serializable {
      */
     public Order removeOrder(OrderLimit order){
         log.info("remove order {}",order.getOrderId());
-        TreeMap<BigDecimal, OrderMerge> depth = getDepth(order.getOrderDirection());
+        TreeMap<BigDecimal, OrderMerge<OrderLimit>> depth = getDepth(order.getOrderDirection());
         OrderMerge mergeOrder = depth.get(order.getPrice());
         if(mergeOrder==null){
             log.error("orderId:{}不存在，移除订单失败", order.getOrderId());
@@ -149,7 +137,7 @@ public class OrderBook implements Serializable {
      * 获取排在队列里面的第一个数据
      * @return
      */
-    public Map.Entry<BigDecimal, OrderMerge> getBestSuiOrder(OrderDirection orderDirection){
+    public Map.Entry<BigDecimal, OrderMerge<OrderLimit>> getBestSuiOrder(OrderDirection orderDirection){
         return getDepth(orderDirection).firstEntry();
     }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author : laoA
@@ -39,22 +40,7 @@ public abstract class Order implements Serializable {
      * 1限价 2市价 3撤单
      */
     protected OrderType orderType;
-    /**
-     *计价币精度
-     */
-    protected Integer coinScale;
-    /**
-     * 标的币精度
-     */
-    protected Integer baseCoinScale;
-    /**
-     * 币单位
-     */
-    protected String coinSymbol;
-    /**
-     * 结算单位
-     */
-    protected String baseSymbol;
+
 //    /**
 //     * 挂单的时间
 //     */
