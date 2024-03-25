@@ -1,0 +1,27 @@
+server:
+  port: 8313
+rocket-mq:
+  consumer:
+    name_servers: localhost:9876
+    consumer_group_prefix: matching_consumer_group_
+    subscribe_prefix: matching_
+    timeout: 5
+    pull_interval: 0
+    sub_expression: '*'
+  producer:
+    name_servers: localhost:9876
+    consumer_group_prefix: matching_producer_group_
+    subscribe_prefix: matching_result
+    default_topic_queue_num: 8
+    send_msg_timeout: 3000
+    retry_times_when_send_async_failed: 0
+    retry_times_when_send_failed: 0
+match:
+  symbols:
+    BTCUSDT:
+      priceScale: 2
+      coinScale: 5
+      symbol:
+    ETHUSDT:
+      coinScale: 3
+      baseCoinScale: 6
