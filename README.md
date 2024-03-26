@@ -8,13 +8,18 @@
 
 ---
 
-## 撮合算法
+## 一、撮合算法说明
 
-详细说明：
+撮合算法模型：
 ### [exchange-matching-algorithm](https://github.com/jcwangjc/exchange-matching-engine/tree/main/exchange-matching-algorithm "exchange-matching-algorithm")
 
-启动项：
+撮合算法实现：
 ### [exchange-matching-execute](https://github.com/jcwangjc/exchange-matching-engine/tree/main/exchange-matching-execute "exchange-matching-execute")
 
+## 二、OrderBook镜像
+   镜像＋mq数据重播解决内存数据恢复问题，再补充
+   
+## 三、资源调度
+   使用zookeeper实现，再补充
 
 ---
