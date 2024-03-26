@@ -42,7 +42,7 @@ public class MatchLimitServiceImpl extends MatchContext implements MatchService<
         }
         //2、获取对手深度
         OrderDirection orderDirection = taker.getOrderDirection();
-        Iterator<Map.Entry<BigDecimal, OrderMerge<OrderLimit>>> iterator = orderBook.getDepthIterator(orderDirection);
+        Iterator<Map.Entry<BigDecimal, OrderMerge<OrderLimit>>> iterator = orderBook.getOpponentDepthIterator(orderDirection);
         //外循环结束标识
         boolean loop = true;
         //3、循环队列，开始吃单匹配

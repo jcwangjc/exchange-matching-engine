@@ -88,6 +88,18 @@ public class OrderBook implements Serializable {
     }
 
     /**
+     * 获取对手的交易队列的迭代器
+     * @return
+     */
+    public Iterator<Map.Entry<BigDecimal, OrderMerge<OrderLimit>>> getOpponentDepthIterator(OrderDirection orderDirection){
+        if (orderDirection.equals(OrderDirection.BUY)) {
+            return getDepthIterator(OrderDirection.SELL);
+        } else {
+            return getDepthIterator(OrderDirection.BUY);
+        }
+    }
+
+    /**
      * 获取当前的交易队列的迭代器
      * @return
      */

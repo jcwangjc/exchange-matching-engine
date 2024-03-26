@@ -38,7 +38,9 @@ public class RocketMqMatchListener implements MessageListenerOrderly {
                     case CANCEL:
                         break;
                     case LIMIT:
-                        order=JSONObject.parseObject(orderModel.getContent(), OrderLimit.class);
+                        OrderLimit orderLimit = JSONObject.parseObject(orderModel.getContent(), OrderLimit.class);
+                        orderLimit.setUnFinishAmount(orderLimit.getAmount());
+                        order=orderLimit;
                         break;
                 }
                 order.setOrderType(orderModel.getOrderType());
