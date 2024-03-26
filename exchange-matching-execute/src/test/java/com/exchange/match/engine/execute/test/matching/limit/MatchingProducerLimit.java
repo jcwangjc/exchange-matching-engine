@@ -36,23 +36,78 @@ public class MatchingProducerLimit {
         // 启动Producer实例
         producer.start();
 
-        List<OrderModel> takers = getTakers();
-        for(OrderModel order:takers){
+        //添加买盘数据
+        List<OrderModel> buys = getBuys();
+        for(OrderModel order:buys){
             try{
                 send(order,producer);
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
+        //添加卖盘数据
+        List<OrderModel> sells = getSells();
+        for(OrderModel order:sells){
+            try{
+                send(order,producer);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        OrderModel take = getTake();
+        send(take,producer);
         // 如果不再发送消息，关闭Producer实例。
         producer.shutdown();
     }
 
+    private static OrderModel getTake(){
+        OrderLimit orderLimit=new OrderLimit();
+        orderLimit.setPrice(new BigDecimal("1009"));
+        orderLimit.setAmount(new BigDecimal("2"));
+        orderLimit.setSymbol("BTCUSDT");
+        orderLimit.setOrderDirection(OrderDirection.SELL);
+        orderLimit.setUserId(100l);
+        orderLimit.setOrderId(3000l);
+
+        String jsonString = JSONObject.toJSONString(orderLimit);
+
+        OrderModel orderModel = OrderModel.builder().content(jsonString).orderType(OrderType.LIMIT).build();
+        orderModel.setOrderType(OrderType.LIMIT);
+        return orderModel;
+    }
+
     /**
-     * 限价交易taker
+     * sell
      * @return
      */
-    private static List<OrderModel> getTakers(){
+    private static List<OrderModel> getSells(){
+        List<OrderModel> result=new ArrayList<>();
+        Integer price=1010;
+        for (int i=0;i<10;i++){
+            OrderLimit orderLimit=new OrderLimit();
+            orderLimit.setPrice(new BigDecimal(price.toString()));
+            orderLimit.setAmount(new BigDecimal("10"));
+            orderLimit.setSymbol("BTCUSDT");
+            orderLimit.setOrderDirection(OrderDirection.SELL);
+            orderLimit.setUserId(10l+i);
+            orderLimit.setOrderId(2001l+i);
+
+            String jsonString = JSONObject.toJSONString(orderLimit);
+
+            OrderModel orderModel = OrderModel.builder().content(jsonString).orderType(OrderType.LIMIT).build();
+            orderModel.setOrderType(OrderType.LIMIT);
+            result.add(orderModel);
+            price+=1;
+        }
+        return result;
+    }
+
+    /**
+     * buy
+     * @return
+     */
+    private static List<OrderModel> getBuys(){
         List<OrderModel> result=new ArrayList<>();
         Integer price=1000;
         for (int i=0;i<10;i++){
